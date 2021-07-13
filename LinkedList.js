@@ -44,14 +44,21 @@ class LinkedList {
           let current = this.head;
           let previous = current;
 
-          if (!current) return null;
+          if (!current) {
+               return null;
+          }
 
-          while (current) {
-               if (!current.next) {
-                    previous.next = null;
-                    this._length--;
-                    return current.data;
-               }
+          if (current.next === null) {
+               this.head = null;
+               return current.value;
+           }
+
+           while (current) {
+                if (!current.next) {
+                     previous.next = null;
+                     return current.value;
+                }
+               previous = current;
                current = current.next;
           }
      }
