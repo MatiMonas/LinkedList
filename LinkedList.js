@@ -1,11 +1,9 @@
 function iterativeArray(node) {
-     if (!node.next) {
-          return [node.data];
-     } else {
-          let invertedArray = iterativeArray(node.next);
-          invertedArray.push(node.data);
-          return invertedArray;
-     }
+     if (!node.next) return [node.data];
+
+     let invertedArray = iterativeArray(node.next);
+     invertedArray.push(node.data);
+     return invertedArray;
 }
 
 class Node {
@@ -39,7 +37,6 @@ class LinkedList {
      size() {
           return this._length;
      }
-
      remove() {
           let current = this.head;
           let previous = current;
@@ -51,13 +48,13 @@ class LinkedList {
           if (current.next === null) {
                this.head = null;
                return current.value;
-           }
+          }
 
-           while (current) {
-                if (!current.next) {
-                     previous.next = null;
-                     return current.value;
-                }
+          while (current) {
+               if (!current.next) {
+                    previous.next = null;
+                    return current.value;
+               }
                previous = current;
                current = current.next;
           }
