@@ -38,29 +38,6 @@ class LinkedList {
           return this._length;
      }
 
-     remove() {
-          let current = this.head;
-          let previous = current;
-
-          if (!current) {
-               return null;
-          }
-
-          if (current.next === null) {
-               this.head = null;
-               return current.value;
-          }
-
-          while (current) {
-               if (!current.next) {
-                    previous.next = null;
-                    return current.value;
-               }
-               previous = current;
-               current = current.next;
-          }
-     }
-
      removeFromHead() {
           if (!this.head) return null;
           this.head = this.head.next;
