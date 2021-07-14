@@ -22,11 +22,11 @@ insertAt()
 size()
 remove()
 removeFromHead()
-removeFrom()
+removeAt()
 removeData()
 search()
 orderMinToMax()
-reverseMaxToMin()
+orderMaxToMin()
 print()
 
 ------------------*/
@@ -95,9 +95,10 @@ class LinkedList {
           return this._length;
      }
 
-     remove() {
+     removeFromEnd() {
           let current = this.head;
           let previous = current;
+          this._length--;
 
           if (!current) {
                return null;
@@ -119,21 +120,41 @@ class LinkedList {
      }
 
      removeFromHead() {
+          let current = this.head;
           if (!this.head) return null;
           this.head = this.head.next;
           this._length--;
+          return current.data;
      }
 
-     removeFrom(position = 0) {
-          let count = 0;
+     removeAt(position) {
           let current = this.head;
-          if (!current) return null;
 
-          while (count < position) {
-               current = current.next;
-               count++;
+          if (position === undefined)
+               throw TypeError("Enter the position you want to delete");
+
+          let count = 1;
+          if (!current) {
+               console.log("entre");
+               return null;
           }
-          current.next = current.next.next;
+
+          if (position === 0) {
+               console.log("entre");
+               this.removeFromHead();
+          } else {
+               while (count < position) {
+                    current = current.next;
+                    count++;
+               }
+               this._length--;
+               if (position > this._length)
+                    throw TypeError(
+                         "Can't remove a position that doesn't exist"
+                    );
+
+               current.next = current.next.next;
+          }
      }
 
      removeData(data) {
@@ -154,12 +175,12 @@ class LinkedList {
                     previous.next = current.next;
                     current = null;
 
+                    this._length--;
                     return dato;
                }
                previous = current;
                current = current.next;
           }
-
           return null;
      }
 
@@ -169,11 +190,11 @@ class LinkedList {
           while (current) {
                if (typeof data === "function") {
                     if (cb(current.data)) {
-                         return current.data;
+                         return true;
                     }
                } else {
                     if (current.data === data) {
-                         return current.data;
+                         return true;
                     }
                     current = current.next;
                }
@@ -192,7 +213,7 @@ class LinkedList {
           }
      }
 
-     reverseMaxToMin() {
+     orderMaxToMin() {
           let current = this.head;
           let gonnaReverse = iterativeArray(current);
           gonnaReverse.sort((a, b) => b - a);
