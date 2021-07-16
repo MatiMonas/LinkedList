@@ -70,24 +70,17 @@ class LinkedList {
 
           if (this._length < pos) return this.push(data);
 
-          if (pos < 0)
+          if (pos < 0) {
                throw TypeError(`Position shouldn't be a negative number`);
-
-          if (pos === 0 || !pos) {
-               this.unshift(data);
-
-               if (pos === 1) {
-                    newNode.next = this.head;
-                    this.head = newNode;
-               }
-          } else {
-               while (pos > 1) {
-                    pos--;
-                    current = current.next;
-               }
-               newNode.next = current.next;
-               current.next = newNode;
           }
+
+          while (pos > 1) {
+               pos--;
+               current = current.next;
+          }
+          newNode.next = current.next;
+          current.next = newNode;
+
           this._length++;
      }
 
@@ -233,5 +226,28 @@ class LinkedList {
           }
           print += " --> null";
           return print;
+     }
+
+     swap(pos1, pos2) {
+          let current = this.head;
+          let current2 = this.head;
+          let size = this.size();
+
+          if (pos1 > size || pos2 > size) return false;
+
+          while (pos1 !== 0) {
+               pos1--;
+               current = current.next;
+          }
+
+          while (pos2 !== 0) {
+               pos2--;
+               current2 = current2.next;
+          }
+          var temp = current.data;
+          current.data = current2.data;
+          current2.data = temp;
+
+          return true;
      }
 }
