@@ -133,7 +133,7 @@ class LinkedList {
 
     if (position === 0) {
       this.head = current.next;
-      return;
+      return true;
     }
 
     while (count !== position && current.next) {
@@ -147,6 +147,7 @@ class LinkedList {
     let temp = current.next;
     current = previous;
     current.next = temp;
+    return true;
   }
 
   swapNodes(position1, position2) {
@@ -159,11 +160,7 @@ class LinkedList {
     if (position1 === position2 || isNaN(position1) || isNaN(position2))
       throw new Error('Positions must be different and type Number');
 
-    if (position1 === 0) {
-      throw new Error('Positions must be greater than 0');
-    }
-
-    if (position2 === 0) {
+    if (position1 === 0 || position2 === 0) {
       throw new Error('Positions must be greater than 0');
     }
 
@@ -210,4 +207,3 @@ linkedList.add(5);
 console.log(linkedList.print());
 console.log(linkedList.removeFrom(0));
 console.log(linkedList.print());
-
