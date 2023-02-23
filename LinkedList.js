@@ -123,7 +123,7 @@ class LinkedList {
   }
 
   removeFrom(position) {
-    let count = 1;
+    let count = 0;
     let current = this.head;
     let previous = null;
 
@@ -208,4 +208,6 @@ linkedList.add(4);
 linkedList.add(5);
 
 console.log(linkedList.print());
-console.log(linkedList.getMiddleNode());
+console.log(linkedList.removeFrom(0));
+console.log(linkedList.print());
+
