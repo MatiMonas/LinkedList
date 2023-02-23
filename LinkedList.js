@@ -1,131 +1,211 @@
 function iterativeArray(node) {
-     if (!node.next) return [node.data];
+  if (!node.next) return [node.data];
 
-     let invertedArray = iterativeArray(node.next);
-     invertedArray.push(node.data);
-     return invertedArray;
+  let invertedArray = iterativeArray(node.next);
+  invertedArray.push(node.data);
+  return invertedArray;
 }
 
 class Node {
-     constructor(data) {
-          this.data = data;
-          this.next = null;
-     }
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
 }
 
 class LinkedList {
-     constructor() {
-          this.head = null;
-          this._length = 0;
-     }
+  constructor() {
+    this.head = null;
+  }
 
-     add(data) {
-          let current = this.head;
+  print() {
+    let print = 'head';
+    let pointer = this.head;
+    while (pointer) {
+      print += ' --> ' + pointer.data;
+      pointer = pointer.next;
+    }
+    print += ' --> null';
+    return print;
+  }
 
-          if (!current) {
-               this.head = new Node(data);
-               this._length++;
-          } else {
-               while (current.next) {
-                    current = current.next;
-               }
-               current.next = new Node(data);
-               this._length++;
-          }
-     }
+  add(data) {
+    let current = this.head;
 
-     size() {
-          return this._length;
-     }
-     remove() {
-          let current = this.head;
-          let previous = current;
+    if (!current) {
+      this.head = new Node(data);
+    } else {
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = new Node(data);
+    }
+  }
 
-          if (!current) {
-               return null;
-          }
+  size() {
+    let current = this.head;
+    let count = 0;
 
-          if (current.next === null) {
-               this.head = null;
-               return current.value;
-          }
+    while (current) {
+      current = current.next;
+      count++;
+    }
 
-          while (current) {
-               if (!current.next) {
-                    previous.next = null;
-                    return current.value;
-               }
-               previous = current;
-               current = current.next;
-          }
-     }
+    return count;
+  }
 
-     removeFromHead() {
-          if (!this.head) return null;
-          this.head = this.head.next;
-          this._length--;
-     }
+  remove() {
+    let current = this.head;
+    let previous = current;
 
-     removeFrom(position = 0) {
-          let count = 0;
-          let current = this.head;
-          if (!current) return null;
+    if (!current) {
+      return null;
+    }
 
-          while (count < position) {
-               current = current.next;
-               count++;
-          }
-          current.next = current.next.next;
-     }
+    if (current.next === null) {
+      this.head = null;
+      return current.value;
+    }
 
-     search(data, cb) {
-          let current = this.head;
+    while (current) {
+      if (!current.next) {
+        previous.next = null;
+        return current.value;
+      }
+      previous = current;
+      current = current.next;
+    }
+  }
 
-          while (current) {
-               if (typeof data === "function") {
-                    if (cb(current.data)) {
-                         return current.data;
-                    }
-               } else {
-                    if (current.data === data) {
-                         return current.data;
-                    }
-                    current = current.next;
-               }
-          }
-          return null;
-     }
+  removeFromHead() {
+    if (!this.head) return null;
+    this.head = this.head.next;
+  }
 
-     orderMinToMax() {
-          let current = this.head;
-          let gonnaReverse = iterativeArray(current);
-          gonnaReverse.sort((a, b) => a - b);
+  search(data, cb) {
+    let current = this.head;
 
-          while (current) {
-               current.data = gonnaReverse.shift();
-               current = current.next;
-          }
-     }
+    while (current) {
+      if (typeof data === 'function') {
+        if (cb(current.data)) {
+          return current.data;
+        }
+      } else {
+        if (current.data === data) {
+          return current.data;
+        }
+        current = current.next;
+      }
+    }
+    return null;
+  }
 
-     reverseMaxToMin() {
-          let current = this.head;
-          let gonnaReverse = iterativeArray(current);
-          gonnaReverse.sort((a, b) => b - a);
+  orderMinToMax() {
+    let current = this.head;
+    let gonnaReverse = iterativeArray(current);
+    gonnaReverse.sort((a, b) => a - b);
 
-          while (current) {
-               current.data = gonnaReverse.shift();
-               current = current.next;
-          }
-     }
+    while (current) {
+      current.data = gonnaReverse.shift();
+      current = current.next;
+    }
+  }
 
-     print() {
-          let print = "head";
-          let pointer = this.head;
-          while (pointer) {
-               print += " --> " + pointer.data;
-               pointer = pointer.next;
-          }
-          print += " --> null";
-          return print;
-     }
+  reverseMaxToMin() {
+    let current = this.head;
+    let gonnaReverse = iterativeArray(current);
+    gonnaReverse.sort((a, b) => b - a);
+
+    while (current) {
+      current.data = gonnaReverse.shift();
+      current = current.next;
+    }
+  }
+
+  removeFrom(position) {
+    let count = 1;
+    let current = this.head;
+    let previous = null;
+
+    if (!current) return false;
+    if (isNaN(position) || position === null)
+      throw new Error('Missing position parameter. Must be a number.');
+
+    if (position === 0) {
+      this.head = current.next;
+      return;
+    }
+
+    while (count !== position && current.next) {
+      previous = current;
+      current = current.next;
+      count++;
+    }
+
+    if (position > count) return false;
+
+    let temp = current.next;
+    current = previous;
+    current.next = temp;
+  }
+
+  swapNodes(position1, position2) {
+    let current = this.head;
+    let count = 0;
+
+    let swappingNode1;
+    let swappingNode2;
+
+    if (position1 === position2 || isNaN(position1) || isNaN(position2))
+      throw new Error('Positions must be different and type Number');
+
+    if (position1 === 0) {
+      throw new Error('Positions must be greater than 0');
+    }
+
+    if (position2 === 0) {
+      throw new Error('Positions must be greater than 0');
+    }
+
+    while (current) {
+      count++;
+
+      if (count === position1) {
+        swappingNode1 = current;
+      }
+
+      if (count === position2) {
+        swappingNode2 = current;
+      }
+      current = current.next;
+    }
+
+    if (position1 > count || position2 > count) return false;
+
+    let tempDataNode1 = swappingNode1.data;
+    swappingNode1.data = swappingNode2.data;
+    swappingNode2.data = tempDataNode1;
+    return true;
+  }
+
+  getMiddleNode() {
+    let slow = this.head;
+    let fast = this.head;
+
+    while (fast && fast.next) {
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+    return slow;
+  }
 }
+
+const linkedList = new LinkedList();
+linkedList.add(1);
+linkedList.add(2);
+linkedList.add(3);
+linkedList.add(4);
+linkedList.add(5);
+
+console.log(linkedList.print());
+console.log(linkedList.getMiddleNode());
